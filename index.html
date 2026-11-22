@@ -4,138 +4,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReWear | Give Clothes a New Life</title>
+
+    <title>Login | ReWear</title>
+
     <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f3f8f3;
+            min-height: 100vh;
+            color: #183b29;
+        }
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR */
+
+        .login-navbar {
+            height: 75px;
+            padding: 0 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-bottom: 1px solid #e5eee6;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #176b3a;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 39px;
+            height: 39px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #e4f5e8;
+            font-size: 22px;
+        }
+
+        .navbar-link {
+            text-decoration: none;
+            color: #42634e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .navbar-link:hover {
+            color: #15803d;
+        }
+
+        /* MAIN LAYOUT */
+
+        .login-main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            max-width: 1150px;
+            width: 92%;
+            margin: auto;
+            gap: 70px;
+            padding: 55px 0;
+        }
+
+        /* LEFT CONTENT */
+
+        .welcome-section {
+            padding: 20px;
+        }
+
+        .welcome-tag {
+            display: inline-block;
+            background: #e2f4e7;
+            color: #18753d;
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .welcome-section h1 {
+            font-size: clamp(35px, 4vw, 52px);
+            line-height: 1.15;
+            font-weight: 800;
+            color: #164c2e;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section h1 span {
+            color: #27a354;
+        }
+
+        .welcome-section > p {
+            color: #647568;
+            line-height: 1.8;
+            font-size: 16px;
+            max-width: 440px;
+        }
+
+        .benefits {
+            margin-top: 35px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            color: #365c43;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .benefit-icon {
+            width: 39px;
+            height: 39px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #e3f4e7;
+            color: #218746;
+            font-size: 18px;
+        }
+
+        /* LOGIN CARD */
+
+        .auth-card {
+            background: #ffffff;
+            padding: 42px;
+            border-radius: 22px;
+            border: 1px solid #e4eee5;
+            box-shadow: 0 18px 55px rgba(28, 85, 48, 0.09);
+            width: 100%;
+            max-width: 440px;
+            justify-self: center;
+        }
+
+        .card-heading {
+            margin-bottom: 30px;
+        }
+
+        .card-heading h2 {
+            font-size: 27px;
+            color: #194b2e;
+            margin-bottom: 8px;
+        }
+
+        .card-heading p {
+            color: #7b8b7e;
+            font-size: 14px;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #345b40;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 49px;
+            padding: 0 15px;
+            border: 1px solid #dce8dd;
+            border-radius: 10px;
+            background: #fbfdfb;
+            font-size: 14px;
+            color: #183b29;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #2c9b53;
+            box-shadow: 0 0 0 3px rgba(44, 155, 83, 0.10);
+            background: white;
+        }
+
+        .form-group input::placeholder {
+            color: #a0ada2;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        #togglePassword {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: #218746;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin: 2px 0 24px;
+        }
+
+        #forgotPassword {
+            color: #218746;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        #forgotPassword:hover {
+            text-decoration: underline;
+        }
+
+        /* SIGN IN BUTTON */
+
+        #loginBtn {
+            width: 100%;
+            height: 51px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #238b45, #176b37);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 7px 18px rgba(35, 139, 69, 0.20);
+        }
+
+        #loginBtn:hover {
+            background: linear-gradient(135deg, #176b37, #10552b);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(35, 139, 69, 0.25);
+        }
+
+        #loginBtn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* MESSAGE */
+
+        #message {
+            margin-top: 17px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            color: #b42318;
+            overflow-wrap: anywhere;
+        }
+
+        /* REGISTER */
+
+        .register-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #7b8b7e;
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: #218746;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+
+        .login-footer {
+            text-align: center;
+            padding: 20px;
+            color: #849287;
+            font-size: 12px;
+            border-top: 1px solid #e5eee6;
+            background: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 850px) {
+            .login-main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 40px 0;
+            }
+
+            .welcome-section {
+                text-align: center;
+                padding: 10px;
+            }
+
+            .welcome-section > p {
+                margin: auto;
+            }
+
+            .benefits {
+                display: none;
+            }
+
+            .auth-card {
+                max-width: 480px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .login-navbar {
+                padding: 0 5%;
+                height: 65px;
+            }
+
+            .brand {
+                font-size: 22px;
+            }
+
+            .auth-card {
+                padding: 28px 22px;
+                border-radius: 16px;
+            }
+
+            .welcome-section h1 {
+                font-size: 34px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<nav class="navbar">
-    <a class="logo" href="home.html">♻ ReWear</a>
+<div class="login-page">
 
-    <div class="nav-links">
-        <a href="home.html">Home</a>
-        <a href="#about">About</a>
-        <a href="donate.html">Donate</a>
-        <a href="reuse.html">Handcraft</a>
-        <a href="login.html">Login</a>
-        <a href="register.html" class="btn">Get Started</a>
-        <button onclick="toggleTheme()">☾</button>
-    </div>
-</nav>
+    <!-- NAVBAR -->
+    <nav class="login-navbar">
 
-<section class="hero">
-    <div class="hero-content">
-        <span class="tag">SUSTAINABLE FASHION · SDG 12</span>
+        <a href="home.html" class="brand">
+            <span class="brand-icon">♻</span>
+            ReWear
+        </a>
 
-        <h1>Give Your Old Clothes<br>
-        <span>a New Life.</span></h1>
+        <a href="home.html" class="navbar-link">
+            ← Back to Home
+        </a>
 
-        <p>
-            Don't throw away your old clothes.
-            Sell them to companies, donate them to charity
-            trusts or transform them through creative handcraft.
-        </p>
+    </nav>
 
-        <a href="register.html" class="btn">Start Now →</a>
-        <a href="#services" class="btn-outline">Explore More</a>
-    </div>
-</section>
+    <!-- MAIN CONTENT -->
+    <main class="login-main">
 
-<section class="container" id="about">
-    <h2 class="section-title">What is ReWear?</h2>
+        <!-- LEFT SECTION -->
+        <section class="welcome-section">
 
-    <p class="center">
-        ReWear is a sustainable clothing platform that
-        connects users, companies and charity trusts.
-        Our goal is to reduce textile waste.
-    </p>
-</section>
+            <span class="welcome-tag">
+                ♻ SUSTAINABLE FASHION PLATFORM
+            </span>
 
-<section class="container" id="services">
-    <h2 class="section-title">Choose Your Purpose</h2>
+            <h1>
+                Give Your Clothes<br>
+                A <span>Second Life.</span>
+            </h1>
 
-    <div class="cards">
-
-        <div class="card">
-            <div class="card-icon">♻</div>
-            <h3>Sell Old Clothes</h3>
             <p>
-                Upload damaged clothes.
-                Companies can request your details
-                and purchase clothes for recycling.
+                Welcome to ReWear! Sell, donate or creatively
+                reuse your old clothes. Join us in building
+                a sustainable future through responsible fashion.
             </p>
-            <a href="login.html" class="btn">Sell Clothes</a>
-        </div>
 
-        <div class="card">
-            <div class="card-icon">♥</div>
-            <h3>Donate Clothes</h3>
-            <p>
-                Donate wearable clothes to charity trusts
-                available in your district.
+            <div class="benefits">
+
+                <div class="benefit">
+                    <span class="benefit-icon">🌱</span>
+                    Reduce textile waste
+                </div>
+
+                <div class="benefit">
+                    <span class="benefit-icon">♻</span>
+                    Reuse and recycle clothing
+                </div>
+
+                <div class="benefit">
+                    <span class="benefit-icon">🤝</span>
+                    Support charitable donations
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- LOGIN FORM -->
+        <section class="auth-card">
+
+            <div class="card-heading">
+                <h2>Welcome Back!</h2>
+                <p>Sign in to continue to your ReWear account.</p>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <a href="#" id="forgotPassword">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <button type="submit" id="loginBtn">
+                    Sign In →
+                </button>
+
+            </form>
+
+            <p id="message" role="status" aria-live="polite"></p>
+
+            <p class="register-text">
+                Don't have an account?
+                <a href="register.html">Create Account</a>
             </p>
-            <a href="donate.html" class="btn">Donate Now</a>
-        </div>
 
-        <div class="card">
-            <div class="card-icon">✂</div>
-            <h3>Reuse & Handcraft</h3>
-            <p>
-                Learn how to convert old clothes
-                into useful handmade products.
-            </p>
-            <a href="reuse.html" class="btn">Learn More</a>
-        </div>
+        </section>
 
-    </div>
-</section>
+    </main>
 
-<section class="container how">
-    <h2 class="section-title">How ReWear Works</h2>
+    <!-- FOOTER -->
+    <footer class="login-footer">
+        © 2026 ReWear. Reuse • Recycle • Reduce.
+        Building a sustainable tomorrow.
+    </footer>
 
-    <div class="cards">
-        <div class="card">
-            <h3>01. Upload</h3>
-            <p>Upload your old cloth image and details.</p>
-        </div>
+</div>
 
-        <div class="card">
-            <h3>02. AI Analysis</h3>
-            <p>AI assists with cloth condition identification.</p>
-        </div>
-
-        <div class="card">
-            <h3>03. Choose</h3>
-            <p>Select Sell, Donate or Handcraft.</p>
-        </div>
-
-        <div class="card">
-            <h3>04. Take Action</h3>
-            <p>Connect with companies, charities or tutorials.</p>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <h2>♻ ReWear</h2>
-    <p>Sell • Donate • Reuse</p>
-    <p>Supporting Sustainable Development Goal 12</p>
-    <p>© 2026 ReWear. All rights reserved.</p>
-</footer>
-
-<script>
-function toggleTheme() {
-    document.body.classList.toggle("dark");
-    localStorage.setItem(
-        "rewearTheme",
-        document.body.classList.contains("dark") ? "dark" : "light"
-    );
-}
-
-if(localStorage.getItem("rewearTheme") === "dark") {
-    document.body.classList.add("dark");
-}
-</script>
+<script type="module" src="js/login.js"></script>
 
 </body>
 </html>

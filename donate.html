@@ -1,10 +1,97 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate | ReWear</title>
+
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f4f8f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #18834b;
+            text-align: center;
+        }
+
+        .form-group {
+            margin: 25px 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .full {
+            width: 100%;
+            padding: 13px;
+            background: #18834b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .full:hover {
+            background: #116638;
+        }
+
+        .trust-card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #d7eadc;
+            border-left: 5px solid #18834b;
+            border-radius: 10px;
+            background: #fafffa;
+        }
+
+        .trust-card h3 {
+            color: #18834b;
+            margin-top: 0;
+        }
+
+        .trust-card p {
+            margin: 9px 0;
+            color: #444;
+        }
+
+        .trust-card a {
+            color: #18834b;
+            text-decoration: none;
+        }
+
+        .demo-note {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        #trustResults {
+            margin-top: 20px;
+        }
+    </style>
 </head>
+
 <body>
 
 <nav class="navbar">
@@ -16,10 +103,10 @@
 
     <h2>Find Charity Trusts</h2>
 
-    <p>Select your district to find available charity trusts.</p>
+    <p>Select your district to find a charity trust for clothing donations.</p>
 
     <div class="form-group">
-        <label>Select District</label>
+        <label for="district">Select District</label>
 
         <select id="district">
             <option value="">Choose District</option>
@@ -42,61 +129,141 @@
 
     <div id="trustResults"></div>
 
+    <p class="demo-note">
+        ReWear – Donate Clothes, Support People, Reduce Waste.
+    </p>
+
 </main>
 
-<script type="module">
-import {
-    db, collection, getDocs, query, where
-} from "./js/firebase.js";
+<script>
+    // DEMO DATA ONLY
+    // Replace these sample records with verified charity details
+    // before publishing the website.
 
-document.getElementById("findTrusts").onclick =
-async () => {
+    const charities = {
+        "Chennai": {
+            name: "Chennai Clothing Care Foundation (Demo)",
+            mobile: "9000000001",
+            email: "chennai.demo@example.com",
+            address: "Chennai, Tamil Nadu"
+        },
 
-    const district =
-        document.getElementById("district").value;
+        "Villupuram": {
+            name: "Villupuram Helping Hands Trust (Demo)",
+            mobile: "9000000002",
+            email: "villupuram.demo@example.com",
+            address: "Villupuram, Tamil Nadu"
+        },
 
-    if (!district) {
-        alert("Please select your district.");
-        return;
-    }
+        "Chengalpattu": {
+            name: "Chengalpattu Social Welfare Trust (Demo)",
+            mobile: "9000000003",
+            email: "chengalpattu.demo@example.com",
+            address: "Chengalpattu, Tamil Nadu"
+        },
 
-    const q = query(
-        collection(db, "charityTrusts"),
-        where("district", "==", district),
-        where("approvalStatus", "==", "approved")
-    );
+        "Kanchipuram": {
+            name: "Kanchipuram Charity Foundation (Demo)",
+            mobile: "9000000004",
+            email: "kanchipuram.demo@example.com",
+            address: "Kanchipuram, Tamil Nadu"
+        },
 
-    const snap = await getDocs(q);
+        "Cuddalore": {
+            name: "Cuddalore Helping Hearts Trust (Demo)",
+            mobile: "9000000005",
+            email: "cuddalore.demo@example.com",
+            address: "Cuddalore, Tamil Nadu"
+        },
 
-    const host = document.getElementById("trustResults");
-    host.innerHTML = "";
+        "Tiruvannamalai": {
+            name: "Tiruvannamalai Community Care Trust (Demo)",
+            mobile: "9000000006",
+            email: "tiruvannamalai.demo@example.com",
+            address: "Tiruvannamalai, Tamil Nadu"
+        },
 
-    if (snap.empty) {
-        host.textContent =
-            "No approved charity trusts found in this district.";
-        return;
-    }
+        "Vellore": {
+            name: "Vellore People's Welfare Foundation (Demo)",
+            mobile: "9000000007",
+            email: "vellore.demo@example.com",
+            address: "Vellore, Tamil Nadu"
+        },
 
-    snap.forEach(item => {
+        "Salem": {
+            name: "Salem Helping Society (Demo)",
+            mobile: "9000000008",
+            email: "salem.demo@example.com",
+            address: "Salem, Tamil Nadu"
+        },
 
-        const data = item.data();
+        "Coimbatore": {
+            name: "Coimbatore Green Charity Trust (Demo)",
+            mobile: "9000000009",
+            email: "coimbatore.demo@example.com",
+            address: "Coimbatore, Tamil Nadu"
+        },
 
-        const div = document.createElement("div");
-        div.className = "product";
+        "Madurai": {
+            name: "Madurai Social Service Foundation (Demo)",
+            mobile: "9000000010",
+            email: "madurai.demo@example.com",
+            address: "Madurai, Tamil Nadu"
+        }
+    };
+
+    document.getElementById("findTrusts").onclick = function () {
+
+        const district =
+            document.getElementById("district").value;
+
+        const host =
+            document.getElementById("trustResults");
+
+        host.innerHTML = "";
+
+        if (!district) {
+            alert("Please select your district.");
+            return;
+        }
+
+        const trust = charities[district];
+
+        if (!trust) {
+            host.textContent =
+                "No charity trusts found in this district.";
+            return;
+        }
+
+        const card = document.createElement("div");
+        card.className = "trust-card";
 
         const title = document.createElement("h3");
-        title.textContent = data.trustName;
+        title.textContent = trust.name;
 
         const address = document.createElement("p");
-        address.textContent = data.address || "";
+        address.textContent = "📍 Address: " + trust.address;
 
-        const contact = document.createElement("p");
-        contact.textContent = data.contact || "";
+        const mobile = document.createElement("p");
+        mobile.textContent = "📞 Mobile: " + trust.mobile;
 
-        div.append(title, address, contact);
-        host.appendChild(div);
-    });
-};
+        const email = document.createElement("p");
+        email.textContent = "✉️ Email: " + trust.email;
+
+        const call = document.createElement("a");
+        call.href = "tel:" + trust.mobile;
+        call.textContent = "Call Charity";
+
+        const mail = document.createElement("a");
+        mail.href = "mailto:" + trust.email;
+        mail.textContent = "Send Email";
+
+        card.append(title, address, mobile, email, call);
+        card.append(document.createTextNode(" | "));
+        card.append(mail);
+
+        host.appendChild(card);
+    };
 </script>
 
 </body>
