@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donate | ReWear</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">ReWear</a>
+    <a href="home.html">Home</a>
+</nav>
+
+<main class="form-container">
+
+    <h2>Find Charity Trusts</h2>
+
+    <p>Select your district to find available charity trusts.</p>
+
+    <div class="form-group">
+        <label>Select District</label>
+
+        <select id="district">
+            <option value="">Choose District</option>
+            <option>Chennai</option>
+            <option>Villupuram</option>
+            <option>Chengalpattu</option>
+            <option>Kanchipuram</option>
+            <option>Cuddalore</option>
+            <option>Tiruvannamalai</option>
+            <option>Vellore</option>
+            <option>Salem</option>
+            <option>Coimbatore</option>
+            <option>Madurai</option>
+        </select>
+    </div>
+
+    <button class="full" id="findTrusts">
+        Find Charity Trusts
+    </button>
+
+    <div id="trustResults"></div>
+
+</main>
+
+<script type="module">
+import {
+    db, collection, getDocs, query, where
+} from "./js/firebase.js";
+
+document.getElementById("findTrusts").onclick =
+async () => {
+
+    const district =
+        document.getElementById("district").value;
+
+    if (!district) {
+        alert("Please select your district.");
+        return;
+    }
+
+    const q = query(
+        collection(db, "charityTrusts"),
+        where("district", "==", district),
+        where("approvalStatus", "==", "approved")
+    );
+
+    const snap = await getDocs(q);
+
+    const host = document.getElementById("trustResults");
+    host.innerHTML = "";
+
+    if (snap.empty) {
+        host.textContent =
+            "No approved charity trusts found in this district.";
+        return;
+    }
+
+    snap.forEach(item => {
+
+        const data = item.data();
+
+        const div = document.createElement("div");
+        div.className = "product";
+
+        const title = document.createElement("h3");
+        title.textContent = data.trustName;
+
+        const address = document.createElement("p");
+        address.textContent = data.address || "";
+
+        const contact = document.createElement("p");
+        contact.textContent = data.contact || "";
+
+        div.append(title, address, contact);
+        host.appendChild(div);
+    });
+};
+</script>
+
+</body>
+</html>

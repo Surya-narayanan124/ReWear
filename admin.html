@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard | ReWear</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">♻ ReWear Admin</a>
+    <button id="logout">Logout</button>
+</nav>
+
+<main class="dashboard">
+
+    <h1>Admin Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Users</h3>
+            <h1 id="totalUsers">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Companies</h3>
+            <h1 id="totalCompanies">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Clothes</h3>
+            <h1 id="totalClothes">0</h1>
+        </div>
+
+    </div>
+
+    <section class="dashboard-card">
+        <h2>Company Approval</h2>
+        <div id="companies"></div>
+    </section>
+
+    <section class="dashboard-card">
+        <h2>Registered Users</h2>
+        <div id="users"></div>
+    </section>
+
+    <section class="dashboard-card">
+        <h2>Cloth Listings</h2>
+        <div id="clothes"></div>
+    </section>
+
+</main>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>

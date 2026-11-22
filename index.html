@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear | Give Clothes a New Life</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="home.html">♻ ReWear</a>
+
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="#about">About</a>
+        <a href="donate.html">Donate</a>
+        <a href="reuse.html">Handcraft</a>
+        <a href="login.html">Login</a>
+        <a href="register.html" class="btn">Get Started</a>
+        <button onclick="toggleTheme()">☾</button>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="tag">SUSTAINABLE FASHION · SDG 12</span>
+
+        <h1>Give Your Old Clothes<br>
+        <span>a New Life.</span></h1>
+
+        <p>
+            Don't throw away your old clothes.
+            Sell them to companies, donate them to charity
+            trusts or transform them through creative handcraft.
+        </p>
+
+        <a href="register.html" class="btn">Start Now →</a>
+        <a href="#services" class="btn-outline">Explore More</a>
+    </div>
+</section>
+
+<section class="container" id="about">
+    <h2 class="section-title">What is ReWear?</h2>
+
+    <p class="center">
+        ReWear is a sustainable clothing platform that
+        connects users, companies and charity trusts.
+        Our goal is to reduce textile waste.
+    </p>
+</section>
+
+<section class="container" id="services">
+    <h2 class="section-title">Choose Your Purpose</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-icon">♻</div>
+            <h3>Sell Old Clothes</h3>
+            <p>
+                Upload damaged clothes.
+                Companies can request your details
+                and purchase clothes for recycling.
+            </p>
+            <a href="login.html" class="btn">Sell Clothes</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">♥</div>
+            <h3>Donate Clothes</h3>
+            <p>
+                Donate wearable clothes to charity trusts
+                available in your district.
+            </p>
+            <a href="donate.html" class="btn">Donate Now</a>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">✂</div>
+            <h3>Reuse & Handcraft</h3>
+            <p>
+                Learn how to convert old clothes
+                into useful handmade products.
+            </p>
+            <a href="reuse.html" class="btn">Learn More</a>
+        </div>
+
+    </div>
+</section>
+
+<section class="container how">
+    <h2 class="section-title">How ReWear Works</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>01. Upload</h3>
+            <p>Upload your old cloth image and details.</p>
+        </div>
+
+        <div class="card">
+            <h3>02. AI Analysis</h3>
+            <p>AI assists with cloth condition identification.</p>
+        </div>
+
+        <div class="card">
+            <h3>03. Choose</h3>
+            <p>Select Sell, Donate or Handcraft.</p>
+        </div>
+
+        <div class="card">
+            <h3>04. Take Action</h3>
+            <p>Connect with companies, charities or tutorials.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <h2>♻ ReWear</h2>
+    <p>Sell • Donate • Reuse</p>
+    <p>Supporting Sustainable Development Goal 12</p>
+    <p>© 2026 ReWear. All rights reserved.</p>
+</footer>
+
+<script>
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+        "rewearTheme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+}
+
+if(localStorage.getItem("rewearTheme") === "dark") {
+    document.body.classList.add("dark");
+}
+</script>
+
+</body>
+</html>

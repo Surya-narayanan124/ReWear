@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register | ReWear</title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">♻ ReWear</a>
+    <a href="login.html">Sign In</a>
+</nav>
+
+<div class="form-container">
+
+    <h2>Create ReWear Account</h2>
+
+    <form id="registerForm">
+
+        <div class="form-group">
+            <label>Account Type</label>
+            <select id="role" onchange="companyField()">
+                <option value="user">User</option>
+                <option value="company">Company</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input id="name" required>
+        </div>
+
+        <div class="form-group hidden" id="companyBox">
+            <label>Company Name</label>
+            <input id="companyName">
+        </div>
+
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input id="mobile" type="tel"
+            pattern="[0-9]{10}" maxlength="10" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input id="email" type="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="password-box">
+                <input id="password" type="password"
+                minlength="8" required>
+                <button type="button"
+                onclick="togglePassword('password',this)">◉</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <div class="password-box">
+                <input id="confirmPassword" type="password"
+                minlength="8" required>
+                <button type="button"
+                onclick="togglePassword('confirmPassword',this)">◉</button>
+            </div>
+        </div>
+
+        <label>
+            <input type="checkbox" id="terms" required>
+            I agree to the ReWear website rules and privacy policy.
+        </label>
+
+        <br><br>
+
+        <button class="full">Create Account</button>
+
+    </form>
+
+    <p id="message" class="notice hidden"></p>
+
+</div>
+
+<script>
+function companyField() {
+    const isCompany = document.getElementById("role").value === "company";
+    document.getElementById("companyBox").classList.toggle("hidden", !isCompany);
+    document.getElementById("companyName").required = isCompany;
+}
+
+function togglePassword(id,btn) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+<script type="module" src="js/auth.js"></script>
+
+</body>
+</html>

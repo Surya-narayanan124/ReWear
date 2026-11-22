@@ -1,0 +1,40 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Dashboard | ReWear</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">♻ ReWear</a>
+    <h3>Company Dashboard</h3>
+    <button id="logout">Logout</button>
+</nav>
+
+<main class="dashboard">
+
+    <h1>Available Old Clothes</h1>
+    <p>Find clothes available for recycling and reuse.</p>
+
+    <div class="dashboard-card">
+        <h2>Cloth Listings</h2>
+        <div id="listings"></div>
+    </div>
+
+    <div class="dashboard-card">
+        <h2>My Requests</h2>
+        <div id="myRequests"></div>
+    </div>
+
+    <p id="message" class="notice hidden"></p>
+
+</main>
+
+<script type="module" src="js/company.js"></script>
+
+</body>
+</html>

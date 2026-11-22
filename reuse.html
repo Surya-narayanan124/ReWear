@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Handcraft Tutorials | ReWear</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .tutorial-header {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .tutorial-header h1 {
+            color: #238b45;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .filter-btn {
+            border: 1px solid #238b45;
+            background: white;
+            color: #238b45;
+            padding: 10px 17px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #238b45;
+            color: white;
+        }
+
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(290px, 1fr)
+            );
+            gap: 24px;
+            margin: 30px 0;
+        }
+
+        .tutorial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.09);
+            overflow: hidden;
+        }
+
+        .tutorial-card h3 {
+            color: #238b45;
+            margin: 10px 0;
+        }
+
+        .tutorial-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .category-label {
+            display: inline-block;
+            background: #e5f5e9;
+            color: #238b45;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            margin-top: 15px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .tutorial-card[hidden] {
+            display: none;
+        }
+
+        .tutorial-footer {
+            text-align: center;
+            margin: 45px 0;
+            padding: 25px;
+            background: #eaf7ed;
+            border-radius: 15px;
+        }
+
+        .tutorial-footer h2 {
+            color: #238b45;
+        }
+
+        @media(max-width: 600px) {
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">♻ ReWear</a>
+    <a href="home.html">Home</a>
+</nav>
+
+<main class="container">
+
+    <header class="tutorial-header">
+        <h1>Reuse & Handcraft Tutorials</h1>
+
+        <p>
+            Give your old clothes a new life!
+            Discover creative DIY projects and learn
+            how to transform unused clothes.
+        </p>
+    </header>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="filter-container">
+
+        <button class="filter-btn active" data-filter="all">
+            All Tutorials
+        </button>
+
+        <button class="filter-btn" data-filter="saree">
+            Saree
+        </button>
+
+        <button class="filter-btn" data-filter="jeans">
+            Jeans
+        </button>
+
+        <button class="filter-btn" data-filter="tshirt">
+            T-Shirt
+        </button>
+
+        <button class="filter-btn" data-filter="shirt">
+            Shirt
+        </button>
+
+        <button class="filter-btn" data-filter="dupatta">
+            Dupatta
+        </button>
+
+        <button class="filter-btn" data-filter="fabric">
+            Fabric Scraps
+        </button>
+
+        <button class="filter-btn" data-filter="mixed">
+            Mixed Clothes
+        </button>
+
+    </div>
+
+    <!-- VIDEO CARDS -->
+    <div class="tutorial-grid" id="tutorialGrid">
+
+        <!-- 1 -->
+        <div class="tutorial-card" data-category="saree">
+            <span class="category-label">SAREE</span>
+            <h3>Old Saree → New Fashion</h3>
+            <p>Explore creative ways to reuse old sarees and make new outfits.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/5sFSuQlFbIU"
+                    title="12 Old Saree Reuse Ideas"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tutorial-card" data-category="saree">
+            <span class="category-label">SAREE</span>
+            <h3>Old Saree → Storage Organizer</h3>
+            <p>Make a useful cloth organizer from old saree fabric.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=6"
+                    title="Saree Organizer DIY"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tutorial-card" data-category="jeans">
+            <span class="category-label">JEANS</span>
+            <h3>Old Jeans → Denim Handbag</h3>
+            <p>Transform old denim jeans into stylish reusable bags.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Cep_uwPyAQY"
+                    title="8 Old Jeans Reuse Ideas"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tutorial-card" data-category="jeans">
+            <span class="category-label">JEANS</span>
+            <h3>Old Jeans → Home Decor</h3>
+            <p>Discover creative ideas for turning denim into useful products.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HKmbf2GrMlE"
+                    title="14 Old Jeans Reuse Ideas"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="tutorial-card" data-category="tshirt">
+            <span class="category-label">T-SHIRT</span>
+            <h3>Old T-Shirt → New Fashion</h3>
+            <p>Learn multiple ways to transform your unused T-shirts.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/utlfzLl0oq4"
+                    title="40 Ways to Upcycle Old T-Shirts"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="tutorial-card" data-category="tshirt">
+            <span class="category-label">T-SHIRT</span>
+            <h3>Old T-Shirt → Reusable Bag</h3>
+            <p>Discover a T-shirt reuse project from a clothes-upcycling compilation.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=454"
+                    title="T-Shirt Scrap Reuse"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="tutorial-card" data-category="shirt">
+            <span class="category-label">SHIRT</span>
+            <h3>Old Shirt → Designer Top</h3>
+            <p>Convert an unused shirt into a fashionable top.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YzrjzSrDWdg"
+                    title="Old Shirt to Beautiful Top"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="tutorial-card" data-category="shirt">
+            <span class="category-label">SHIRT</span>
+            <h3>Old Shirt → Storage Basket</h3>
+            <p>Explore a shirt reuse idea for making a useful organizer.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=536"
+                    title="Old Shirt Organizer"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="tutorial-card" data-category="dupatta">
+            <span class="category-label">DUPATTA</span>
+            <h3>Old Dupatta → Organizer</h3>
+            <p>Reuse old dupatta fabric to make a hanging organizer.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=481"
+                    title="Old Dupatta Organizer"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="tutorial-card" data-category="fabric">
+            <span class="category-label">FABRIC SCRAPS</span>
+            <h3>Fabric Scraps → Patchwork Mat</h3>
+            <p>Combine leftover cloth pieces to create useful home products.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=396"
+                    title="Patchwork Mat DIY"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="tutorial-card" data-category="fabric">
+            <span class="category-label">FABRIC SCRAPS</span>
+            <h3>Waste Fabric → Doormat</h3>
+            <p>Turn leftover fabric into a handmade doormat.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y?start=664"
+                    title="Waste Fabric Doormat"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="tutorial-card" data-category="mixed">
+            <span class="category-label">MIXED CLOTHES</span>
+            <h3>20 Creative Old Clothes Ideas</h3>
+            <p>Explore different projects using jeans, shirts, T-shirts and other old fabrics.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HHyex4vgk9Y"
+                    title="20 Old Clothes Reuse Ideas"
+                    loading="lazy"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="tutorial-footer">
+        <h2>♻ Reduce • Reuse • Recycle</h2>
+
+        <p>
+            Don't throw away your old clothes.
+            Turn them into something useful and creative!
+        </p>
+
+        <strong>ReWear – Give Clothes a Second Life.</strong>
+    </footer>
+
+</main>
+
+<!-- CATEGORY FILTER SCRIPT -->
+<script>
+
+    const filterButtons =
+        document.querySelectorAll(".filter-btn");
+
+    const tutorialCards =
+        document.querySelectorAll(".tutorial-card");
+
+    filterButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const selectedCategory =
+                button.getAttribute("data-filter");
+
+            filterButtons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            tutorialCards.forEach(card => {
+
+                const category =
+                    card.getAttribute("data-category");
+
+                if (
+                    selectedCategory === "all" ||
+                    selectedCategory === category
+                ) {
+                    card.hidden = false;
+                } else {
+                    card.hidden = true;
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

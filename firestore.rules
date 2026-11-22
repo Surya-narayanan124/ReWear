@@ -1,0 +1,355 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =====================================
+    // AUTHENTICATION AND ROLE CHECKS
+    // =====================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.admin == true;
+    }
+
+    function isNormalUser() {
+      return signedIn()
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.role == "user";
+    }
+
+    function isCompany() {
+      return signedIn()
+        && exists(
+          /databases/$(database)/documents/companies/$(request.auth.uid)
+        )
+        && get(
+          /databases/$(database)/documents/companies/$(request.auth.uid)
+        ).data.approvalStatus == "approved";
+    }
+
+    // =====================================
+    // USERS
+    // =====================================
+
+    match /users/{uid} {
+
+      allow create: if isOwner(uid)
+        && request.resource.data.role == "user"
+        && request.resource.data.email is string
+        && request.resource.data.name is string;
+
+      allow read: if isOwner(uid) || isAdmin();
+
+      allow update: if isOwner(uid)
+        && request.resource.data.diff(resource.data)
+          .affectedKeys().hasOnly([
+            "name",
+            "mobile"
+          ]);
+
+      allow delete: if isAdmin();
+    }
+
+    // =====================================
+    // COMPANIES
+    // =====================================
+
+    match /companies/{uid} {
+
+      allow create: if isOwner(uid)
+        && request.resource.data.approvalStatus == "pending"
+        && request.resource.data.email is string
+        && request.resource.data.companyName is string;
+
+      allow read: if isOwner(uid) || isAdmin();
+
+      allow update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // CLOTH LISTINGS
+    // =====================================
+
+    match /clothes/{clothId} {
+
+      allow create: if isNormalUser()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == "available"
+        && request.resource.data.clothName is string
+        && request.resource.data.imageUrl is string
+        && request.resource.data.quantity is int
+        && request.resource.data.quantity >= 1
+        && request.resource.data.confirmedCondition
+          in ["good", "average", "damaged"]
+        && request.resource.data.aiPrediction
+          in ["GOOD", "AVERAGE", "DAMAGED"]
+        && request.resource.data.recommendations is list
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.keys().hasAll([
+          "userId",
+          "imageUrl",
+          "clothName",
+          "category",
+          "material",
+          "quantity",
+          "description",
+          "aiPrediction",
+          "confirmedCondition",
+          "recommendations",
+          "selectedAction",
+          "status",
+          "createdAt"
+        ]);
+
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && resource.data.userId == request.auth.uid
+        )
+        || isCompany();
+
+      allow update: if isAdmin()
+        || (
+          isOwner(resource.data.userId)
+          && request.resource.data.userId == resource.data.userId
+          && request.resource.data.diff(resource.data)
+            .affectedKeys().hasOnly([
+              "clothCode",
+              "selectedAction",
+              "status"
+            ])
+        );
+
+      allow delete: if isAdmin()
+        || isOwner(resource.data.userId);
+    }
+
+    // =====================================
+    // PRIVATE USER PROFILES
+    // =====================================
+
+    match /privateProfiles/{uid} {
+
+      allow read: if isOwner(uid) || isAdmin();
+
+      allow create, update: if isOwner(uid);
+
+      allow delete: if isAdmin();
+    }
+
+    // =====================================
+    // COMPANY ACCESS REQUESTS
+    // =====================================
+
+    match /accessRequests/{requestId} {
+
+      // Approved company creates request.
+      allow create: if isCompany()
+        && request.resource.data.companyId == request.auth.uid
+        && request.resource.data.userId is string
+        && request.resource.data.clothId is string
+        && request.resource.data.status == "pending"
+        && exists(
+          /databases/$(database)/documents/clothes/$(request.resource.data.clothId)
+        )
+        && get(
+          /databases/$(database)/documents/clothes/$(request.resource.data.clothId)
+        ).data.userId == request.resource.data.userId;
+
+      // Seller, requesting company and admin can read.
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && (
+            resource.data.userId == request.auth.uid
+            || resource.data.companyId == request.auth.uid
+          )
+        );
+
+      // Only the seller can approve their own pending request.
+      allow update: if isOwner(resource.data.userId)
+        && resource.data.status == "pending"
+        && request.resource.data.status == "approved"
+        && request.resource.data.diff(resource.data)
+          .affectedKeys().hasOnly([
+            "status",
+            "approvedAt"
+          ])
+        && request.resource.data.approvedAt == request.time
+        && exists(
+          /databases/$(database)/documents/contactShares/$(requestId)
+        )
+        && get(
+          /databases/$(database)/documents/contactShares/$(requestId)
+        ).data.userId == request.auth.uid
+        && get(
+          /databases/$(database)/documents/contactShares/$(requestId)
+        ).data.companyId == resource.data.companyId;
+
+      allow delete: if isAdmin();
+    }
+
+    // =====================================
+    // APPROVED CONTACT SHARES
+    // =====================================
+
+    match /contactShares/{requestId} {
+
+      // Seller creates a contact share only for
+      // their own existing pending request.
+      allow create: if isNormalUser()
+        && exists(
+          /databases/$(database)/documents/accessRequests/$(requestId)
+        )
+        && get(
+          /databases/$(database)/documents/accessRequests/$(requestId)
+        ).data.userId == request.auth.uid
+        && get(
+          /databases/$(database)/documents/accessRequests/$(requestId)
+        ).data.status == "pending"
+        && request.resource.data.requestId == requestId
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.companyId ==
+          get(
+            /databases/$(database)/documents/accessRequests/$(requestId)
+          ).data.companyId
+        && request.resource.data.clothId ==
+          get(
+            /databases/$(database)/documents/accessRequests/$(requestId)
+          ).data.clothId
+        && request.resource.data.name is string
+        && request.resource.data.mobile is string
+        && request.resource.data.email is string
+        && request.resource.data.createdAt == request.time;
+
+      // Only the seller, admin, or the specifically
+      // approved requesting company can read.
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && resource.data.userId == request.auth.uid
+        )
+        || (
+          isCompany()
+          && resource.data.companyId == request.auth.uid
+          && exists(
+            /databases/$(database)/documents/accessRequests/$(requestId)
+          )
+          && get(
+            /databases/$(database)/documents/accessRequests/$(requestId)
+          ).data.status == "approved"
+        );
+
+      // Contact details cannot be edited or deleted by companies.
+      allow update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // CHARITY TRUSTS
+    // =====================================
+
+    match /charityTrusts/{trustId} {
+
+      allow read: if isAdmin()
+        || resource.data.approvalStatus == "approved";
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // DONATION REQUESTS
+    // =====================================
+
+    match /donations/{donationId} {
+
+      allow create: if isNormalUser()
+        && request.resource.data.userId == request.auth.uid;
+
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && resource.data.userId == request.auth.uid
+        );
+
+      allow update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // HANDCRAFT VIDEOS
+    // =====================================
+
+    match /handcraftVideos/{videoId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // COMPANY ENQUIRIES
+    // =====================================
+
+    match /enquiries/{enquiryId} {
+
+      allow create: if isCompany()
+        && request.resource.data.companyId == request.auth.uid
+        && request.resource.data.sellerId is string
+        && request.resource.data.clothId is string
+        && request.resource.data.status == "new";
+
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && (
+            resource.data.companyId == request.auth.uid
+            || resource.data.sellerId == request.auth.uid
+          )
+        );
+
+      allow update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // DEMO PAYMENTS
+    // =====================================
+
+    match /demoPayments/{paymentId} {
+
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.mode == "DEMO"
+        && request.resource.data.status == "DEMO_SUCCESS"
+        && request.resource.data.amount is number;
+
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && resource.data.userId == request.auth.uid
+        );
+
+      allow update, delete: if isAdmin();
+    }
+
+    // =====================================
+    // DEFAULT DENY
+    // =====================================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

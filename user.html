@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard | ReWear</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="home.html" class="logo">♻ ReWear</a>
+    <span id="welcome">User Dashboard</span>
+    <button onclick="toggleTheme()">Theme</button>
+    <button id="logout">Logout</button>
+</nav>
+
+<main class="dashboard">
+
+    <h1>My Dashboard</h1>
+    <p>Upload your old clothes and give them a new life.</p>
+
+    <section class="dashboard-card">
+
+        <h2>Upload Old Clothes</h2>
+
+        <form id="clothForm">
+
+            <div class="form-group">
+                <label>Cloth Image</label>
+                <input type="file" id="clothImage"
+                accept="image/*" required>
+            </div>
+
+            <img id="imagePreview"
+            style="max-width:200px;display:none">
+
+            <div class="form-group">
+                <label>Cloth Name</label>
+                <input id="clothName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select id="category">
+                    <option>Men</option>
+                    <option>Women</option>
+                    <option>Kids</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Material</label>
+                <input id="material" placeholder="Cotton, silk, denim">
+            </div>
+
+            <div class="form-group">
+                <label>Quantity (number of pieces)</label>
+                <input type="number" id="quantity"
+                min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label>Cloth Description</label>
+                <textarea id="description"></textarea>
+            </div>
+
+            <button type="button" id="analyzeBtn">
+                Analyze Cloth Image
+            </button>
+
+        </form>
+
+        <div id="aiResult" class="notice hidden"></div>
+
+        <div id="confirmSection" class="hidden">
+
+            <h3>Confirm Cloth Condition</h3>
+
+            <p>AI prediction:</p>
+            <h2 id="prediction"></h2>
+
+            <div class="form-group">
+                <label>Actual Cloth Condition</label>
+
+                <select id="confirmedCondition">
+                    <option value="good">Good</option>
+                    <option value="average">Average</option>
+                    <option value="damaged">Heavily Damaged</option>
+                </select>
+            </div>
+
+            <button type="button" id="saveCloth">
+                Confirm and Upload
+            </button>
+
+        </div>
+
+        <div id="recommendations"></div>
+
+    </section>
+
+    <section class="dashboard-card">
+        <h2>My Uploaded Clothes</h2>
+        <div id="myClothes"></div>
+    </section>
+
+    <section class="dashboard-card">
+        <h2>Company Contact Requests</h2>
+        <div id="requests"></div>
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+<script>
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+}
+</script>
+
+<script type="module" src="js/user.js"></script>
+
+</body>
+</html>
